@@ -117,3 +117,5 @@ GitHub.sublime-settings
 
 # Database
 .dbdata/
+
+.DS_Store
