@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Product, User
+from .producer import publish
 from .serializers import ProductSerializer
+
 
 class ProductViewSet(viewsets.ViewSet):
 
@@ -13,6 +15,8 @@ class ProductViewSet(viewsets.ViewSet):
         # GET /api/products
         products = Product.objects.all()
         serializer = ProductSerializer(instance=products, many=True)
+        # RabbitMQ
+        publish()
         reponse_data = Response(serializer.data)
         return reponse_data
 
