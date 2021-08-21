@@ -15,8 +15,6 @@ class ProductViewSet(viewsets.ViewSet):
         # GET /api/products
         products = Product.objects.all()
         serializer = ProductSerializer(instance=products, many=True)
-        # RabbitMQ
-        publish()
         reponse_data = Response(serializer.data)
         return reponse_data
 
@@ -26,6 +24,8 @@ class ProductViewSet(viewsets.ViewSet):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        # RabbitMQ
+        publish('product_created', serializer.data)
         response_data = Response(data=serializer.data, status=status.HTTP_201_CREATED)
         return response_data
 
@@ -42,6 +42,8 @@ class ProductViewSet(viewsets.ViewSet):
         serializer = ProductSerializer(instance=product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        # RabbitMQ
+        publish('product_updated', serializer.data)
         response_data = Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
         return response_data
 
@@ -49,6 +51,8 @@ class ProductViewSet(viewsets.ViewSet):
         # DELETE /api/products/<str:id>
         product = Product.objects.get(id=pk)
         product.delete()
+        # RabbitMQ
+        publish('product_deleted', pk)
         response_data = Response(status=status.HTTP_204_NO_CONTENT)
         return response_data
 
