@@ -1,45 +1,23 @@
 import React from 'react';
 import './App.css';
-import Nav from './components/Nav';
-import Menu from './components/Menu';
+import Products from "./admin/Products";
+import {BrowserRouter, Route} from "react-router-dom";
+import Main from "./main/Main";
+import ProductsCreate from "./admin/ProductsCreate";
+import ProductsEdit from "./admin/ProductsEdit";
 
 function App() {
-  return (
-    <div className="App">
-      <Nav />
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Route path='/' exact component={Main}/>
+                <Route path='/admin/products' exact component={Products}/>
+                <Route path='/admin/products/create' exact component={ProductsCreate}/>
+                <Route path='/admin/products/:id/edit' exact component={ProductsEdit}/>
+            </BrowserRouter>
 
-      <div className="container-fluid">
-        <div className="row">
-          <Menu />
-          <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <h2>Section title</h2>
-            <div className="table-responsive">
-              <table className="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1,001</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </main>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default App;
